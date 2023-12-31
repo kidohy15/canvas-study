@@ -3,9 +3,9 @@ const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 const dpr = window.devicePixelRatio
 
-console.log(canvas)
-console.log(ctx)
-console.log(window.devicePixelRatio);
+// console.log(canvas)
+// console.log(ctx)
+// console.log(window.devicePixelRatio);
 
 // const canvasWidth = 300;
 // const canvasHeight = 300;
@@ -35,6 +35,46 @@ ctx.beginPath()
 ctx.arc(150, 150, 50, 0, Math.PI / 180 * 360)
 ctx.stroke()
 ctx.closePath()
+
+// gooey 속성값
+const feGaussianBlur = document.querySelector('feGaussianBlur')
+const feColorMatrix = document.querySelector('feColorMatrix')
+
+// 컨트롤 패널 함수
+const controls = new function () {
+  this.blurValue = 40
+  this.alphaChannel = 100
+  this.alphaOffset = -23
+  this.acc = 1.03
+}
+
+// dat.GUI 객체 생성 -> 컨트롤 패널 생성됨
+let gui = new dat.GUI();
+
+// 그룹핑할 폴더 생성
+const f1 = gui.addFolder('Gooey Effect')
+f1.open()
+
+// 컨트롤 패널에 제어 가능한 패널 항목 추가
+// gooey같은 svg 내 속성 태그일 시
+f1.add(controls, 'blurValue', 0, 100).onChange(value => {
+  feGaussianBlur.setAttribute('stdDeviation', value)
+});
+f1.add(controls, 'alphaChannel', 1, 200).onChange(value => {
+  feColorMatrix.setAttribute('values', `1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ${value} ${controls.alphaOffset}`)
+})
+f1.add(controls, 'alphaOffset', -40, 40).onChange(value => {
+  feColorMatrix.setAttribute('values', `1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 ${controls.alphaChannel} ${value}`)
+})
+
+// gooey가 아닌 클래스 객체의 속성을 활용하는 경우
+const f2 = gui.addFolder('Particle Effect')
+f2.open()
+
+f2.add(controls, 'acc', 1, 1.5, 0.01).onChange(value => {
+  particles.forEach(particle => particle.acc = value)
+})
+
 
 // 파티클 클래스
 class Particle {
