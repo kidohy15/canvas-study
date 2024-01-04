@@ -1,5 +1,4 @@
-import CanvasOption from "./js/CnavasOption";
-
+import CanvasOption from "./js/CanvasOption.js";
 
 class Canvas extends CanvasOption {
   constructor() {
@@ -36,8 +35,6 @@ class Canvas extends CanvasOption {
       then = now - (delta % this.interval);
     }
     requestAnimationFrame(frame);
-
-
   }
 }
 
