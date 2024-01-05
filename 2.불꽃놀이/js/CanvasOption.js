@@ -11,5 +11,7 @@ export default class CanvasOption {
 
     this.canvasWidth = innerWidth;
     this.canvasHeight = innerHeight;
+
+    this.bgColor = '#000000';
   }
 }
